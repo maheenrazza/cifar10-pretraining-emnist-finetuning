@@ -107,5 +107,37 @@ It prints:
 ### Option A — Run locally
 1. Clone the repo
    ```bash
-   git clone https://github.com/<your-username>/<repo-name>.git
-   cd <repo-name>
+   git clone https://github.com/maheenrazza/cifar10-pretraining-emnist-finetuning.git
+   cd cifar10-pretraining-emnist-finetuning
+
+2. Install dependencies
+   ```bash
+   pip install -r requirements.txt
+
+3. Launch Jupyter
+   ```bash
+   jupyter notebook
+
+4. Open and run:
+   ```bash
+    pretraining_and_finetuning.ipynb
+
+### Option B — Run in Google Colab
+Upload the notebook to Colab and run cells top-to-bottom. (GPU recommended.)
+
+---
+
+### Repository contents
+
+- pretraining_and_finetuning.ipynb — main notebook (pretraining + fine-tuning + experiments)
+- requirements.txt — Python dependencies
+- .gitignore — ignores notebook checkpoints, caches, etc.
+
+### Notes / limitations
+  
+- This is an educational workflow and intentionally keeps everything in one notebook.
+- CIFAR-10 performance depends on GPU availability and random seed.
+- For stronger comparisons, you could add:
+  - a baseline EMNIST model trained from scratch
+  - full confusion matrix + per-class accuracy
+  - multiple runs with mean/std reporting
