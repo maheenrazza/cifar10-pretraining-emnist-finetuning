@@ -6,21 +6,17 @@ This project is a **single, self-contained Jupyter notebook** that demonstrates 
 
 It also includes a small **architecture/training ablation** (batch size, learning rate, batch norm, dropout, and global pooling) and basic error analysis.
 
----
-
 ## What the model does
 
 ### Pretraining task (CIFAR-10)
 - **Input:** 32×32 RGB images (3 channels)
 - **Output:** 10 classes (airplane, automobile, bird, cat, deer, dog, frog, horse, ship, truck)
-- **Goal:** learn general-purpose visual features (edges → textures → shapes)
+- **Goal:** learn general-purpose visual features (edges, textures, shapes etc)
 
 ### Fine-tuning task (EMNIST Letters)
 - **Input:** grayscale handwritten letters (1 channel)
-- **Output:** 26 classes (A–Z)
+- **Output:** 26 classes (A-Z)
 - **Goal:** reuse pretrained features and adapt the classifier + later layers to a new dataset
-
----
 
 ## Model architecture (from the notebook)
 
@@ -33,14 +29,12 @@ It also includes a small **architecture/training ablation** (batch size, learnin
   - Classifier head is replaced for **26 classes**.
   - Earlier layers are **frozen**, later stage(s) + head remain trainable.
 
----
-
 ## Data & preprocessing
 
 ### CIFAR-10 (pretraining)
 - Split used in notebook:
   - **Train:** 45,000
-  - **Validation / “finetune split”:** 5,000
+  - **Validation:** 5,000
   - **Test:** 10,000
 - Augmentations used:
   - RandomCrop(32, padding=4)
@@ -52,10 +46,8 @@ It also includes a small **architecture/training ablation** (batch size, learnin
 ### EMNIST Letters (fine-tuning)
 - **Train:** 124,800
 - **Test:** 20,800
-- Normalization: mean=0.5, std=0.5 (as used in notebook)
+- Normalization: mean=0.5, std=0.5
 - Labels are shifted from [1..26] → [0..25] inside training loop.
-
----
 
 ## Training setup (pretraining)
 
@@ -67,8 +59,6 @@ It also includes a small **architecture/training ablation** (batch size, learnin
   - then **Cosine annealing**
 - Checkpointing:
   - Saves `model_checkpoint_epoch_<N>.pth` each epoch
-
----
 
 ## Results (from notebook outputs)
 
@@ -84,23 +74,6 @@ It also includes a small **architecture/training ablation** (batch size, learnin
 - Scheduler: ReduceLROnPlateau
 - **Best EMNIST test accuracy:** **93.72%**
 - Saved model: `best_emnist_finetuned.pth`
-
----
-
-## Ablation / experiments included
-The notebook runs a small sweep over:
-- batch size
-- learning rate
-- batch norm on/off
-- dropout on/off
-- global pooling on/off
-
-It prints:
-- parameter counts (pooling vs no pooling)
-- validation accuracy after short training runs
-- top configurations by validation accuracy
-
----
 
 ## How to run
 
@@ -125,19 +98,8 @@ It prints:
 ### Option B — Run in Google Colab
 Upload the notebook to Colab and run cells top-to-bottom. (GPU recommended.)
 
----
-
 ### Repository contents
 
 - pretraining_and_finetuning.ipynb — main notebook (pretraining + fine-tuning + experiments)
 - requirements.txt — Python dependencies
 - .gitignore — ignores notebook checkpoints, caches, etc.
-
-### Notes / limitations
-  
-- This is an educational workflow and intentionally keeps everything in one notebook.
-- CIFAR-10 performance depends on GPU availability and random seed.
-- For stronger comparisons, you could add:
-  - a baseline EMNIST model trained from scratch
-  - full confusion matrix + per-class accuracy
-  - multiple runs with mean/std reporting
